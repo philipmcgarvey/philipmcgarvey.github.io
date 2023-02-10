@@ -494,17 +494,18 @@ function encodeToUrlSafeBase64(text) {
 function FillUrlBoxWithAbcInBase64() {
   abcText = theABC.value;
   const abcInBase64 = encodeToUrlSafeBase64(abcText);
-  url = getUrlWithoutParams() + "?base64="+abcInBase64;
+  format = Welchetabs("notenodertab");
+  url = getUrlWithoutParams() + "?base64="+abcInBase64 + "&format="+format;
   console.log(url);
   urltextbox = document.getElementById("urltextbox");
   urltextbox.value = url;
-  urltextbox.rows = url.length / 100;
+  urltextbox.rows = url.length / 100 + 1;
 }
 
 function CreateURLfromHTML() {
   FillUrlBoxWithAbcInBase64();
   urlarea = document.getElementById("urlarea");
-  urlarea.style.visibility = "visible";
+  urlarea.style.display = "block";
   urltextbox = document.getElementById("urltextbox");
   urltextbox.focus();
   urltextbox.setSelectionRange(0, urltextbox.value.length);
@@ -1153,6 +1154,18 @@ function Notenmachen(tune, instrument) {
 
 }
 
+function SetRadioValue(radiowert, value) {
+  const mitradiowert = "input[name=\"" + radiowert + "\"]";
+  const radioButtons = document.querySelectorAll(mitradiowert);
+
+  for (const radioButton of radioButtons) {
+    if (radioButton.value == value) {
+      radioButton.checked = true;
+    } else {
+      radioButton.checked = false;
+    }
+  }
+}
 
 function Welchetabs(radiowert) {
   const mitradiowert = "input[name=\"" + radiowert + "\"]";
@@ -1177,6 +1190,9 @@ function Render() {
   if (theABC.value != "") {
 
     //console.log("Render()");
+    if (document.getElementById("urlarea").style.display != "none") {
+      FillUrlBoxWithAbcInBase64();
+    }
 
     document.getElementById("notenrechts").style.display = "block";
     document.getElementById("notation-holder").style.display = "block";
@@ -1630,6 +1646,11 @@ function doStartup(){
       FillUrlBoxWithAbcInBase64();
     }
   }
+  if(urlParams.has("format")) {
+    const format = urlParams.get("format");
+    SetRadioValue("notenodertab", format);
+  }
+  Render();
 }
 
 // Startup
