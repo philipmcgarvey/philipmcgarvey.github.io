@@ -491,14 +491,23 @@ function encodeToUrlSafeBase64(text) {
   return encodedValue.replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
 }
 
-function CreateURLfromHTML() {
+function FillUrlBoxWithAbcInBase64() {
   abcText = theABC.value;
   const abcInBase64 = encodeToUrlSafeBase64(abcText);
   url = getUrlWithoutParams() + "?base64="+abcInBase64;
   console.log(url);
-  navigator.clipboard.writeText(url);
+  urltextbox = document.getElementById("urltextbox");
   urltextbox.value = url;
   urltextbox.rows = url.length / 100;
+}
+
+function CreateURLfromHTML() {
+  FillUrlBoxWithAbcInBase64();
+  urlarea = document.getElementById("urlarea");
+  urlarea.style.visibility = "visible";
+  urltextbox = document.getElementById("urltextbox");
+  urltextbox.focus();
+  urltextbox.setSelectionRange(0, urltextbox.value.length);
 }
 
 function SetAbcText(txt) {
@@ -1612,12 +1621,14 @@ function doStartup(){
   Clear();
 
   const urlParams = new URLSearchParams(window.location.search);
-  const abcInBase64 = urlParams.get("base64");
-  const abcText = atob(abcInBase64);
-  if (abcText.length > 0) {
-    //console.log(abcText);
-    SetAbcText(abcText);
-    CreateURLfromHTML();
+  if(urlParams.has("base64")) {
+    const abcInBase64 = urlParams.get("base64");
+    const abcText = atob(abcInBase64);
+    if (abcText.length > 0) {
+      //console.log(abcText);
+      SetAbcText(abcText);
+      FillUrlBoxWithAbcInBase64();
+    }
   }
 }
 

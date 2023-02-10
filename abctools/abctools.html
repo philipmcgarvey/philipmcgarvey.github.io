@@ -2,7 +2,7 @@
 <html>
 <head>
   
-  <title>Michael Eskin's ABC Tools</title>
+  <title>Phil's tweaked copy of Michael Eskin's ABC Tools</title>
   
   <meta charset="UTF-8">
   <meta http-equiv="Content-Type" content="text/html">
@@ -100,6 +100,7 @@
       <label for="wb2">Medium</label>
       <input type="radio" id="wb3" value="100%" name="renderwidth" class="hidebutton" onclick="Render()">
       <label for="wb3">Large</label>
+      <input type="button" class="createurl" onclick="CreateURLfromHTML()" value="Create URL to share" style="margin-left:20px;margin-right:10px">
       <input type="button" class="saveaspdf" onclick="CreatePDFfromHTML()" value="Export PDF" style="margin-left:20px;margin-right:10px">
       <tspan id="pdfformatlabel">PDF Format:</tspan>
       <select id="pdfformat" name="pdfformat">
@@ -109,7 +110,7 @@
 
     </div>
 
-    <div id="urlarea">
+    <div id="urlarea" style="visibility:hidden">
 
       <br>
       <textarea id="urltextbox" rows="1" cols="100" placeholder="url for sharing will appear here"></textarea>
